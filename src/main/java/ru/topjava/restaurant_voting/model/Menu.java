@@ -11,7 +11,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "menus")
+@Table(name = "menus", uniqueConstraints = {
+        @UniqueConstraint(name = "menus_unique_restaurant_date_idx", columnNames = {"restaurant_id", "date"})
+})
 public class Menu extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)

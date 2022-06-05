@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @Setter
 @Entity
 @Table(name = "votes", uniqueConstraints = {
-        @UniqueConstraint(name = "votes_unique_urd_idx", columnNames = {"user_id", "date", "restaurant_id"})
+        @UniqueConstraint(name = "votes_unique_user_date_idx", columnNames = {"user_id", "date"})
 })
 public class Vote extends BaseEntity {
     @ManyToOne
