@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,8 +21,12 @@ public class Menu extends BaseEntity {
     @NotNull
     private Restaurant restaurant;
 
+    @Column(nullable = false)
+    @NotNull
     private LocalDate date;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
-    private List<Dish> dishes;
+    @Size(min = 2, max = 20)
+    @NotNull
+    @OneToMany(mappedBy = "menu")
+    private List<Dish> dishes = new java.util.ArrayList<>();
 }

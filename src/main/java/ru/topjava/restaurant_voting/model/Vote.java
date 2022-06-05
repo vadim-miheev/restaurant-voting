@@ -15,21 +15,21 @@ import java.time.LocalTime;
         @UniqueConstraint(name = "votes_unique_user_date_idx", columnNames = {"user_id", "date"})
 })
 public class Vote extends BaseEntity {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @NotNull
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
     private Restaurant restaurant;
 
-    @Column(name = "date", nullable = false)
+    @Column(nullable = false)
     @NotNull
     private LocalDate date;
 
-    @Column(name = "time", nullable = false)
+    @Column(nullable = false)
     @NotNull
     private LocalTime time;
 }
