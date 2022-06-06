@@ -5,8 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Date;
+import java.sql.Time;
 
 @Getter
 @Setter
@@ -15,8 +15,8 @@ import java.time.LocalTime;
         @UniqueConstraint(name = "votes_unique_user_date_idx", columnNames = {"user_id", "date"})
 })
 public class Vote extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     @NotNull
     private User user;
 
@@ -25,11 +25,11 @@ public class Vote extends BaseEntity {
     @NotNull
     private Restaurant restaurant;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false, columnDefinition = "date default CURRENT_DATE()")
     @NotNull
-    private LocalDate date;
+    private Date date;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "time default CURRENT_TIME()")
     @NotNull
-    private LocalTime time;
+    private Time time;
 }

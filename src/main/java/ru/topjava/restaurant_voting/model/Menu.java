@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
 
 @Getter
@@ -16,17 +16,17 @@ import java.util.List;
         @UniqueConstraint(name = "menus_unique_restaurant_date_idx", columnNames = {"restaurant_id", "date"})
 })
 public class Menu extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "restaurant_id", nullable = false, updatable = false)
     @NotNull
     private Restaurant restaurant;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @NotNull
-    private LocalDate date;
+    private Date date;
 
     @Size(min = 2, max = 20)
     @NotNull
-    @OneToMany(mappedBy = "menu")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "menu")
     private List<Dish> dishes = new java.util.ArrayList<>();
 }
