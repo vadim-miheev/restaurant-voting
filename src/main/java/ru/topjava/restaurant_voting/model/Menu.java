@@ -1,5 +1,7 @@
 package ru.topjava.restaurant_voting.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +21,7 @@ public class Menu extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "restaurant_id", nullable = false, updatable = false)
     @NotNull
+    @JsonBackReference
     private Restaurant restaurant;
 
     @Column(nullable = false, updatable = false)
@@ -28,5 +31,6 @@ public class Menu extends BaseEntity {
     @Size(min = 2, max = 20)
     @NotNull
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "menu")
+    @JsonManagedReference
     private List<Dish> dishes = new java.util.ArrayList<>();
 }

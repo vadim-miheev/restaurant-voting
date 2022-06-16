@@ -1,5 +1,6 @@
 package ru.topjava.restaurant_voting.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -22,5 +23,6 @@ public class Restaurant extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @Column(nullable = false)
     @NotNull
+    @JsonManagedReference
     private List<Menu> menus;
 }
