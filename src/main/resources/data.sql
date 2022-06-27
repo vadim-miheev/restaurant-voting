@@ -3,6 +3,11 @@ VALUES ('User', 'user', '{noop}user'),
        ('Admin', 'admin', '{noop}admin'),
        ('Guest', 'guest', '{noop}guest');
 
+INSERT INTO USER_ROLES (USER_ID, ROLE)
+VALUES (1, 'USER'),
+       (2, 'USER'),
+       (2, 'ADMIN');
+
 INSERT INTO RESTAURANTS (NAME)
 VALUES ('restaurant1'),
        ('restaurant2'),
