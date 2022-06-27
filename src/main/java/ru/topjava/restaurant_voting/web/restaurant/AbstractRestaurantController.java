@@ -14,13 +14,9 @@ public abstract class AbstractRestaurantController {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+
     List<RestaurantTo> getAllWithMenuForToday() {
         log.info("getAllWithMenuForToday");
         return getTos(restaurantRepository.getAllWithMenuForToday());
-    }
-
-    void vote(int id) {
-        log.info("vote {}", id);
-        //TODO
     }
 }

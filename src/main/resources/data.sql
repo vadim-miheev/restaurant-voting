@@ -31,3 +31,7 @@ VALUES ('dish1', 485, 1),
        ('dish9', 675, 3),
        ('dish10', 330, 3),
        ('dish11', 545, 3);
+
+INSERT INTO VOTES (RESTAURANT_ID, USER_ID)
+VALUES (2, 1),
+       (3, 2);

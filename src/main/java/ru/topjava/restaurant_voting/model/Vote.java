@@ -1,12 +1,15 @@
 package ru.topjava.restaurant_voting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,22 +17,26 @@ import java.sql.Time;
 @Table(name = "votes", uniqueConstraints = {
         @UniqueConstraint(name = "votes_unique_user_date_idx", columnNames = {"user_id", "date"})
 })
+@NoArgsConstructor
 public class Vote extends BaseEntity {
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     @NotNull
+    @JsonIgnore
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
+    @JsonIgnoreProperties({"menus"})
     private Restaurant restaurant;
 
     @Column(nullable = false, updatable = false, columnDefinition = "date default CURRENT_DATE()")
-    @NotNull
-    private Date date;
+    private Date date = Date.valueOf(LocalDate.now());
 
-    @Column(nullable = false, columnDefinition = "time default CURRENT_TIME()")
-    @NotNull
-    private Time time;
+    public Vote(User user, Restaurant restaurant) {
+        this.user = user;
+        this.restaurant = restaurant;
+    }
 }
