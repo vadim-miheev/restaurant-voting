@@ -26,7 +26,7 @@ import java.util.Optional;
 public class VoteController extends AbstractRestaurantController {
     static final String REST_URL = "/api/votes";
 
-    static final LocalTime VOTING_DEADLINE = LocalTime.of(21, 0);
+    static final LocalTime VOTING_DEADLINE = LocalTime.of(11, 0);
 
     VoteRepository voteRepository;
 
