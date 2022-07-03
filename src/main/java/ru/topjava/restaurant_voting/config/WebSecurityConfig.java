@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.web.SecurityFilterChain;
@@ -47,5 +48,11 @@ public class WebSecurityConfig {
                                     () -> new UsernameNotFoundException("User '" + login + "' was not found")));
                         })
                 .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
+    }
+
+    @Bean
+    // https://stackoverflow.com/a/70176629/548473
+    public UserDetailsService userDetailsServiceBean(AuthenticationManagerBuilder auth) {
+        return auth.getDefaultUserDetailsService();
     }
 }
