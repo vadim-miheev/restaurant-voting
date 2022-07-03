@@ -1,23 +1,17 @@
 package ru.topjava.restaurant_voting.web.vote;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import ru.topjava.restaurant_voting.error.VoteDeadlineException;
-import ru.topjava.restaurant_voting.model.Restaurant;
 import ru.topjava.restaurant_voting.model.Vote;
-import ru.topjava.restaurant_voting.repository.RestaurantRepository;
 import ru.topjava.restaurant_voting.repository.VoteRepository;
+import ru.topjava.restaurant_voting.service.VoteService;
 import ru.topjava.restaurant_voting.web.AuthUser;
 import ru.topjava.restaurant_voting.web.restaurant.AbstractRestaurantController;
-
-import javax.persistence.EntityNotFoundException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,11 +20,9 @@ import java.util.Optional;
 public class VoteController extends AbstractRestaurantController {
     static final String REST_URL = "/api/votes";
 
-    static final LocalTime VOTING_DEADLINE = LocalTime.of(11, 0);
-
     VoteRepository voteRepository;
-
-    RestaurantRepository restaurantRepository;
+    
+    VoteService voteService;
 
     @GetMapping("/current")
     ResponseEntity<Vote> getUserVoteForToday(@AuthenticationPrincipal AuthUser authUser) {
@@ -38,22 +30,11 @@ public class VoteController extends AbstractRestaurantController {
         return ResponseEntity.of(voteRepository.getUserVoteForToday(authUser.getUser()));
     }
 
-    @PostMapping
-    ResponseEntity<Vote> vote(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
-        Restaurant restaurantToVote = restaurantRepository.findById(restaurantId).orElseThrow(
-                () -> new EntityNotFoundException("Restaurant with such id does not exist"));
-
-        Optional<Vote> previousUserVote = voteRepository.getUserVoteForToday(authUser.getUser());
-        if (previousUserVote.isPresent() && LocalTime.now().isAfter(VOTING_DEADLINE)) {
-            log.info("Vote after deadline - user:{}", authUser.id());
-            throw new VoteDeadlineException("You cannot change your vote after "
-                    + VOTING_DEADLINE.format(DateTimeFormatter.ofPattern("hh:mm a")));
-        }
-
-        Vote voteToSave = previousUserVote.orElse(new Vote(authUser.getUser(), restaurantToVote));
-        if(!voteToSave.isNew()) voteToSave.setRestaurant(restaurantToVote);
-
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Vote> vote(@RequestBody ObjectNode objectNode, @AuthenticationPrincipal AuthUser authUser) {
+        int restaurantId = objectNode.get("restaurantId").asInt();
+        Vote countedVote = voteService.voteForRestaurant(restaurantId, authUser.getUser());
         log.info("Vote - user:{} restaurant:{}", authUser.id(), restaurantId);
-        return ResponseEntity.ok(voteRepository.save(voteToSave));
+        return ResponseEntity.ok(countedVote);
     }
 }
