@@ -1,4 +1,4 @@
-package ru.topjava.restaurant_voting.to;
+package ru.topjava.restaurant_voting.dto;
 
 import ru.topjava.restaurant_voting.model.Menu;
 

@@ -3,7 +3,7 @@ package ru.topjava.restaurant_voting.web.restaurant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.topjava.restaurant_voting.repository.RestaurantRepository;
-import ru.topjava.restaurant_voting.to.RestaurantTo;
+import ru.topjava.restaurant_voting.dto.RestaurantTo;
 
 import java.util.List;
 
