@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class RestaurantController extends AbstractRestaurantController {
-    static final String REST_URL = "/api/restaurants";
+    protected static final String REST_URL = "/api/restaurants";
 
     @Override
     @GetMapping("/today")
