@@ -15,8 +15,13 @@ VALUES ('restaurant1'),
 
 INSERT INTO MENUS (RESTAURANT_ID, DATE, DISHES)
 VALUES (1, '2022-06-16', 'dish1	485		dish2	780		dish3	880		dish4	740'),
-       (2, '2022-06-15', 'dish5	340		dish6	660		dish7	760		dish8	530'),
-       (3, CURRENT_DATE, 'dish9	675		dish10	330		dish11	545');
+       (1, '2022-06-15', 'dish5	340		dish6	660		dish7	760		dish8	530'),
+       (1, CURRENT_DATE, 'dish9	675		dish10	330		dish11	545'),
+       (2, '2022-06-15', 'dish1	485		dish2	780		dish3	880		dish4	740'),
+       (2, CURRENT_DATE, 'dish5	340		dish6	660		dish7	760		dish8	530'),
+       (3, '2022-06-15', 'dish1	485		dish2	780		dish3	880		dish4	740'),
+       (3, CURRENT_DATE, 'dish5	340		dish6	660		dish7	760		dish8	530');
+
 
 INSERT INTO VOTES (RESTAURANT_ID, USER_ID)
 VALUES (2, 1),

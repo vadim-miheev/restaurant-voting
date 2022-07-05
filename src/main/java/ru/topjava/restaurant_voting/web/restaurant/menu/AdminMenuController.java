@@ -16,6 +16,7 @@ import ru.topjava.restaurant_voting.repository.RestaurantRepository;
 import ru.topjava.restaurant_voting.web.restaurant.AdminRestaurantController;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.MESSAGE;
 
@@ -37,5 +38,10 @@ public class AdminMenuController {
                     ErrorAttributeOptions.of(MESSAGE));
         }
         return ResponseEntity.ok(menu);
+    }
+
+    @GetMapping
+    List<Menu> getAll(@PathVariable int restaurantId) {
+        return menuRepository.getMenusByRestaurant(restaurantRepository.getReferenceById(restaurantId));
     }
 }
