@@ -27,27 +27,24 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.M
 @Slf4j
 public class AdminMenuController {
     protected static final String REST_URL = AdminRestaurantController.REST_URL + "/{restaurantId}/menus";
-
     MenuRepository menuRepository;
-
     RestaurantRepository restaurantRepository;
-
     Validator validator;
 
-    @GetMapping("/{id}")
-    ResponseEntity<Menu> get(@PathVariable int restaurantId, @PathVariable int id) {
-        //TODO logs
-        Menu menu = menuRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
+    @GetMapping("/{menuId}")
+    ResponseEntity<Menu> get(@PathVariable int restaurantId, @PathVariable int menuId) {
+        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
         if (menu.getRestaurant().getId() == null || menu.getRestaurant().getId() != restaurantId) {
             throw new AppException(HttpStatus.CONFLICT, "The requested menu does not apply to the specified restaurant",
                     ErrorAttributeOptions.of(MESSAGE));
         }
+        log.info("get restaurant:{} menu:{}", restaurantId, menuId);
         return ResponseEntity.ok(menu);
     }
 
     @GetMapping
     List<Menu> getAll(@PathVariable int restaurantId) {
-        //TODO logs
+        log.info("getAll restaurant:{}", restaurantId);
         return menuRepository.getMenusByRestaurant(restaurantRepository.getReferenceById(restaurantId));
     }
 
@@ -61,7 +58,7 @@ public class AdminMenuController {
         Menu created = menuRepository.save(menu);
         log.info("created {}", menu);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path(REST_URL + "/{menuId}")
                 .buildAndExpand(restaurantId, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
