@@ -4,6 +4,7 @@ import ru.topjava.restaurant_voting.model.Dish;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,21 +15,19 @@ public class DishesListConverter implements AttributeConverter<List<Dish>, Strin
     private static final String DISHES_SEPARATOR = "\t\t";
 
     @Override
-    public String convertToDatabaseColumn(List<Dish> dishList) {
+    public String convertToDatabaseColumn(@Valid List<Dish> dishList) {
         if (dishList == null) return null;
 
         StringBuilder sb = new StringBuilder();
         dishList.forEach(dish -> {
-            if (!dish.getName().isEmpty()) {
+            if (!dish.getName().isEmpty() && dish.getPriceInCents() >= 0) {
                 sb.append(dish.getName());
                 sb.append(PROPS_SEPARATOR);
-            }
-            if (dish.getPriceInCents() >= 0) {
                 sb.append(dish.getPriceInCents());
                 sb.append(DISHES_SEPARATOR);
             }
         });
-        return sb.toString().trim();
+        return sb.toString();
     }
 
     @Override

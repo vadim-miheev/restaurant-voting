@@ -29,7 +29,7 @@ public class Menu extends BaseEntity {
     @NotNull
     private Date date;
 
-    @Size(min = 2, max = 20)
+    @Size(min = 1, max = 20)
     @NotNull
     @Convert(converter = DishesListConverter.class)
     private List<Dish> dishes = new ArrayList<>();
