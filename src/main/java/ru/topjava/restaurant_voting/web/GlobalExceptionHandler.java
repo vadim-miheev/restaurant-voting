@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import ru.topjava.restaurant_voting.error.AppException;
 import ru.topjava.restaurant_voting.error.VoteDeadlineException;
 
 import javax.persistence.EntityNotFoundException;
@@ -22,6 +23,12 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.M
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private final ErrorAttributes errorAttributes;
+
+    @ExceptionHandler(AppException.class)
+    public ResponseEntity<?> appException(WebRequest request, AppException ex) {
+        log.error("ApplicationException: {}", ex.getMessage());
+        return createResponseEntity(request, ex.getOptions(), null, ex.getStatus());
+    }
 
     @ExceptionHandler(VoteDeadlineException.class)
     public ResponseEntity<?> voteDeadlineException(WebRequest request, VoteDeadlineException ex) {
