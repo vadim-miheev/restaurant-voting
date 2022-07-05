@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.restaurant_voting.error.AppException;
+import ru.topjava.restaurant_voting.error.UnprocessableEntityException;
 import ru.topjava.restaurant_voting.model.Menu;
 import ru.topjava.restaurant_voting.repository.MenuRepository;
 import ru.topjava.restaurant_voting.repository.RestaurantRepository;
@@ -18,6 +19,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Validator;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.MESSAGE;
 
@@ -51,12 +53,18 @@ public class AdminMenuController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Menu> create(@PathVariable int restaurantId, @RequestBody Menu menu) {
         menu.setRestaurant(restaurantRepository.getReferenceById(restaurantId));
-        validator.validate(menu).forEach(menuConstraintViolation -> {
-            throw new AppException(HttpStatus.UNPROCESSABLE_ENTITY, menuConstraintViolation.getPropertyPath() + " "
-                    + menuConstraintViolation.getMessage(), ErrorAttributeOptions.of(MESSAGE));
-        });
+
+        var violations = validator.validate(menu);
+        if (!violations.isEmpty()) {
+            throw new UnprocessableEntityException(violations.stream()
+                    .map(violation -> violation.getPropertyPath() + " " + violation.getMessage())
+                    .collect(Collectors.joining("; ")));
+        }
+
+        if(!menu.isNew()) menu.setId(null);
         Menu created = menuRepository.save(menu);
         log.info("created {}", menu);
+
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{menuId}")
                 .buildAndExpand(restaurantId, created.getId()).toUri();

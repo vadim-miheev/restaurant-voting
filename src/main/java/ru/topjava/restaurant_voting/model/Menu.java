@@ -6,6 +6,7 @@ import lombok.Setter;
 import ru.topjava.restaurant_voting.model.converter.DishesListConverter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
@@ -32,5 +33,6 @@ public class Menu extends BaseEntity {
     @Size(min = 1, max = 20)
     @NotNull
     @Convert(converter = DishesListConverter.class)
+    @Valid
     private List<Dish> dishes = new ArrayList<>();
 }
