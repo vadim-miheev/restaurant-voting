@@ -1,14 +1,15 @@
 package ru.topjava.restaurant_voting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
+import ru.topjava.restaurant_voting.model.converter.DishesListConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -30,7 +31,6 @@ public class Menu extends BaseEntity {
 
     @Size(min = 2, max = 20)
     @NotNull
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "menu")
-    @JsonManagedReference
-    private List<Dish> dishes = new java.util.ArrayList<>();
+    @Convert(converter = DishesListConverter.class)
+    private List<Dish> dishes = new ArrayList<>();
 }
