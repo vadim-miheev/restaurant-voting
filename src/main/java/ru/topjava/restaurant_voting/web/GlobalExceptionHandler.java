@@ -14,7 +14,9 @@ import ru.topjava.restaurant_voting.error.AppException;
 import ru.topjava.restaurant_voting.error.VoteDeadlineException;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ConstraintViolationException;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.MESSAGE;
 
@@ -42,6 +44,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return createResponseEntity(request, ErrorAttributeOptions.of(MESSAGE), null, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<?> constraintViolationException(WebRequest request, ConstraintViolationException ex) {
+        log.error("ConstraintViolationException: {}", ex.getMessage());
+        String msg = ex.getConstraintViolations().stream()
+                .map(cv -> String.format("[%s] %s", cv.getPropertyPath(), cv.getMessage()))
+                .collect(Collectors.joining("\n"));
+        return createResponseEntity(request, ErrorAttributeOptions.defaults(), msg, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
     @SuppressWarnings("unchecked")
     private <T> ResponseEntity<T> createResponseEntity(WebRequest request, ErrorAttributeOptions options, String msg, HttpStatus status) {
         Map<String, Object> body = errorAttributes.getErrorAttributes(request, options);
@@ -52,5 +63,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         body.put("error", status.getReasonPhrase());
         return (ResponseEntity<T>) ResponseEntity.status(status).body(body);
     }
-
 }
