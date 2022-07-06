@@ -52,4 +52,15 @@ public class AdminMenuController {
                 .buildAndExpand(restaurantId, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
+
+    @DeleteMapping("/{menuId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int restaurantId, @PathVariable int menuId) {
+        Menu menu = menuRepository.findById(menuId).orElseThrow();
+        checkRestaurantId(menu, restaurantId);
+        menuRepository.delete(menu);
+        log.info("deleted menu:{} from restaurant:{}", menuId, restaurantId);
+    }
+
+
 }
