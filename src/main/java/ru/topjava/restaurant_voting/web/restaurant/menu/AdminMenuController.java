@@ -32,13 +32,13 @@ public class AdminMenuController {
     ResponseEntity<Menu> get(@PathVariable int restaurantId, @PathVariable int menuId) {
         Menu menu = menuRepository.findById(menuId).orElseThrow();
         checkRestaurantId(menu, restaurantId);
-        log.info("get menu:{} from restaurant:{}", menuId, restaurantId);
+        log.info("get {} from Restaurant:{}", menu, restaurantId);
         return ResponseEntity.ok(menu);
     }
 
     @GetMapping
     List<Menu> getAll(@PathVariable int restaurantId) {
-        log.info("getAll restaurant:{}", restaurantId);
+        log.info("getAll Restaurant:{}", restaurantId);
         return menuRepository.getMenusByRestaurant(restaurantRepository.getReferenceById(restaurantId));
     }
 
@@ -46,7 +46,7 @@ public class AdminMenuController {
     ResponseEntity<Menu> create(@PathVariable int restaurantId, @RequestBody Menu menu) {
         menu.setRestaurant(restaurantRepository.getReferenceById(restaurantId));
         Menu created = menuService.validateAndCreate(menu);
-        log.info("created {} for restaurant:{}", menu, restaurantId);
+        log.info("created {} for Restaurant:{}", menu, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{menuId}")
                 .buildAndExpand(restaurantId, created.getId()).toUri();
@@ -55,11 +55,11 @@ public class AdminMenuController {
 
     @DeleteMapping("/{menuId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int restaurantId, @PathVariable int menuId) {
+    void delete(@PathVariable int restaurantId, @PathVariable int menuId) {
         Menu menu = menuRepository.findById(menuId).orElseThrow();
         checkRestaurantId(menu, restaurantId);
         menuRepository.delete(menu);
-        log.info("deleted menu:{} from restaurant:{}", menuId, restaurantId);
+        log.info("deleted Menu:{} from Restaurant:{}", menuId, restaurantId);
     }
 
 
