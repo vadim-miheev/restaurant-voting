@@ -16,6 +16,7 @@ import ru.topjava.restaurant_voting.web.restaurant.AdminRestaurantController;
 import java.net.URI;
 import java.util.List;
 
+import static ru.topjava.restaurant_voting.service.MenuService.checkMenuId;
 import static ru.topjava.restaurant_voting.service.MenuService.checkRestaurantId;
 
 @RestController
@@ -53,6 +54,15 @@ public class AdminMenuController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+    @PutMapping(value = "/{menuId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Menu> update(@PathVariable int restaurantId, @PathVariable int menuId, @RequestBody Menu menu) {
+        checkMenuId(menu, menuId);
+        menu.setRestaurant(restaurantRepository.getReferenceById(restaurantId));
+        Menu updated = menuService.validateAndUpdate(menu);
+        log.info("updated {} for Restaurant:{}", updated, restaurantId);
+        return ResponseEntity.ok(updated);
+    }
+
     @DeleteMapping("/{menuId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable int restaurantId, @PathVariable int menuId) {
@@ -61,6 +71,4 @@ public class AdminMenuController {
         menuRepository.delete(menu);
         log.info("deleted Menu:{} from Restaurant:{}", menuId, restaurantId);
     }
-
-
 }
