@@ -2,6 +2,7 @@ package ru.topjava.restaurant_voting.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "restaurants")
+@NoArgsConstructor
 public class Restaurant extends BaseEntity {
     @Length(min = 2, max = 128)
     @NotBlank
@@ -25,4 +27,10 @@ public class Restaurant extends BaseEntity {
     @NotNull
     @JsonManagedReference
     private List<Menu> menus;
+
+    public Restaurant(Integer id, String name, List<Menu> menus) {
+        super(id);
+        this.name = name;
+        this.menus = menus;
+    }
 }

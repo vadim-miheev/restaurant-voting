@@ -24,7 +24,8 @@ import static ru.topjava.restaurant_voting.service.MenuService.checkRestaurantId
 @AllArgsConstructor
 @Slf4j
 public class AdminMenuController {
-    protected static final String REST_URL = AdminRestaurantController.REST_URL + "/{restaurantId}/menus";
+    protected static final String SUBRESOURCE_URL = "/menus";
+    protected static final String REST_URL = AdminRestaurantController.REST_URL + "/{restaurantId}" + SUBRESOURCE_URL;
     MenuRepository menuRepository;
     RestaurantRepository restaurantRepository;
     MenuService menuService;
