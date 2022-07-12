@@ -16,4 +16,22 @@ public class Dish {
 
     @PositiveOrZero
     private Long priceInCents;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Dish dish = (Dish) o;
+
+        if (!name.equals(dish.name)) return false;
+        return priceInCents.equals(dish.priceInCents);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + priceInCents.hashCode();
+        return result;
+    }
 }
