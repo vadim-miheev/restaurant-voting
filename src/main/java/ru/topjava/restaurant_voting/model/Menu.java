@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class Menu extends BaseEntity {
 
     @Column(nullable = false, updatable = false)
     @NotNull
-    private Date date;
+    private LocalDate date;
 
     @Size(min = 1, max = 20)
     @NotNull
