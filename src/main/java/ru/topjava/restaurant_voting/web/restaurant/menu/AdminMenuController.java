@@ -16,8 +16,7 @@ import ru.topjava.restaurant_voting.web.restaurant.AdminRestaurantController;
 import java.net.URI;
 import java.util.List;
 
-import static ru.topjava.restaurant_voting.service.MenuService.checkMenuId;
-import static ru.topjava.restaurant_voting.service.MenuService.checkRestaurantId;
+import static ru.topjava.restaurant_voting.util.MenuUtil.*;
 
 @RestController
 @RequestMapping(value = AdminMenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,7 +56,8 @@ public class AdminMenuController {
 
     @PutMapping(value = "/{menuId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Menu> update(@PathVariable int restaurantId, @PathVariable int menuId, @RequestBody Menu menu) {
-        checkMenuId(menu, menuId);
+        checkMenuExist(menuRepository, menuId);
+        checkMenuIdBeforeUpdate(menu, menuId);
         menu.setRestaurant(restaurantRepository.getReferenceById(restaurantId));
         Menu updated = menuService.validateAndUpdate(menu);
         log.info("updated {} for Restaurant:{}", updated, restaurantId);
