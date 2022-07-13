@@ -22,6 +22,7 @@ public class MenuTestData {
     public static final int MENU_ID_5 = 5;
     public static final int MENU_ID_6 = 6;
     public static final int MENU_ID_7 = 7;
+    public static final int MENU_ID_NONEXISTENT = Integer.MAX_VALUE;
 
     public static final List<Dish> MENU_1_DISHES = List.of(DISH_1, DISH_2, DISH_3, DISH_4);
     public static final List<Dish> MENU_2_DISHES = List.of(DISH_5, DISH_6, DISH_7, DISH_8);

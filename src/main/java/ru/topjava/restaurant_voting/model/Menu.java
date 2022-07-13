@@ -28,7 +28,7 @@ public class Menu extends BaseEntity {
     @JsonBackReference
     private Restaurant restaurant;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     @NotNull
     private LocalDate date;
 

@@ -15,6 +15,7 @@ import ru.topjava.restaurant_voting.web.AbstractControllerTest;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -91,7 +92,45 @@ class AdminMenuControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = "admin")
-    void update() {
+    void update() throws Exception {
+        Menu menuForUpdate = new Menu(null, null, LocalDate.now(), List.of(DISH_2, DISH_5));
+        ResultActions action = perform(MockMvcRequestBuilders.put(REST_URL + "/" + RESTAURANT_ID_3 + SUBRESOURCE_URL + "/" + MENU_ID_2)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(menuForUpdate)))
+                .andDo(print())
+                .andExpect(status().isOk());
+        Menu updated = MENU_MATCHER.readFromJson(action);
+
+        int updatedId = updated.id();
+        assertEquals(updatedId, MENU_ID_2);
+
+        menuForUpdate.setId(updatedId);
+        MENU_MATCHER.assertMatch(updated, menuForUpdate);
+
+        menuForUpdate.setRestaurant(restaurantRepository.getReferenceById(RESTAURANT_ID_3));
+        MENU_MATCHER.assertMatch(menuRepository.findById(updatedId).orElse(null), menuForUpdate);
+    }
+
+    @Test
+    @WithUserDetails(value = "admin")
+    void updateWithWrongMenuId() throws Exception {
+        Menu menuForUpdate = new Menu(MENU_ID_6, null, LocalDate.now(), List.of(DISH_3, DISH_5));
+        perform(MockMvcRequestBuilders.put(REST_URL + "/" + RESTAURANT_ID_2 + SUBRESOURCE_URL + "/" + MENU_ID_7)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(menuForUpdate)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithUserDetails(value = "admin")
+    void updateNonExistent() throws Exception {
+        Menu menuForUpdate = new Menu(MENU_ID_NONEXISTENT, null, LocalDate.now(), List.of(DISH_1, DISH_2));
+        perform(MockMvcRequestBuilders.put(REST_URL + "/" + RESTAURANT_ID_4 + SUBRESOURCE_URL + "/" + MENU_ID_NONEXISTENT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(menuForUpdate)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @Test
