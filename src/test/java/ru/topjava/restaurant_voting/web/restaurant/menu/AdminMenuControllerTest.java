@@ -135,6 +135,25 @@ class AdminMenuControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = "admin")
-    void delete() {
+    void delete() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL + "/" + RESTAURANT_ID_2 + SUBRESOURCE_URL + "/" + MENU_ID_5))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @WithUserDetails(value = "admin")
+    void deleteNonExistent() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL + "/" + RESTAURANT_ID_4 + SUBRESOURCE_URL + "/" + MENU_ID_NONEXISTENT))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithUserDetails(value = "admin")
+    void deleteWithWrongRestaurantId() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL + "/" + RESTAURANT_ID_4 + SUBRESOURCE_URL + "/" + MENU_ID_4))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 }
