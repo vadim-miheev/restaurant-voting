@@ -3,11 +3,15 @@ package ru.topjava.restaurant_voting.web.restaurant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.restaurant_voting.dto.RestaurantTo;
 import ru.topjava.restaurant_voting.model.Restaurant;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -42,5 +46,14 @@ public class AdminRestaurantController extends AbstractRestaurantController {
         log.info("delete Restaurant:{}", id);
     }
 
-
+    @PostMapping
+    ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
+        if(restaurant.getId() != null) restaurant.setId(null);
+        Restaurant created = restaurantRepository.save(restaurant);
+        log.info("created {}", restaurant);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
+    }
 }
