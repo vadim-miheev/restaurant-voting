@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.restaurant_voting.dto.RestaurantTo;
@@ -13,6 +14,9 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+
+import static ru.topjava.restaurant_voting.util.RestaurantUtil.checkRestaurantExist;
+import static ru.topjava.restaurant_voting.util.RestaurantUtil.checkRestaurantIdBeforeUpdate;
 
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -48,12 +52,21 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     @PostMapping
     ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
-        if(restaurant.getId() != null) restaurant.setId(null);
+        if(!restaurant.isNew()) restaurant.setId(null);
         Restaurant created = restaurantRepository.save(restaurant);
         log.info("created {}", restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    ResponseEntity<Restaurant> update(@PathVariable int id, @Valid @RequestBody Restaurant restaurant) {
+        checkRestaurantExist(restaurantRepository, id);
+        checkRestaurantIdBeforeUpdate(restaurant, id);
+        log.info("updated {}", restaurant);
+        return ResponseEntity.ok(restaurantRepository.save(restaurant));
     }
 }
