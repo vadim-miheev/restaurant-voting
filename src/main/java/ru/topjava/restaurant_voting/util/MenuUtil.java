@@ -7,6 +7,7 @@ import ru.topjava.restaurant_voting.error.AppException;
 import ru.topjava.restaurant_voting.model.Menu;
 import ru.topjava.restaurant_voting.repository.MenuRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Objects;
 
 import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.MESSAGE;
@@ -31,8 +32,7 @@ public class MenuUtil {
 
     public static void checkMenuExist(MenuRepository menuRepository, int menuId) {
         if (!menuRepository.existsById(menuId)) {
-            throw new AppException(HttpStatus.BAD_REQUEST, "Menu with specified ID does not exist",
-                    ErrorAttributeOptions.of(MESSAGE));
+            throw new EntityNotFoundException("Menu with specified ID does not exist");
         }
     }
 }
