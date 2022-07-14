@@ -26,7 +26,15 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     @GetMapping("/{id}")
     Restaurant get(@PathVariable int id) {
+        log.info("get Restaurant:{}", id);
         return restaurantRepository.getWithMenus(id).orElseThrow(
                 () -> new EntityNotFoundException("There is no restaurant with such id"));
     }
+
+    @GetMapping
+    List<Restaurant> getAll() {
+        log.info("getAll");
+        return restaurantRepository.findAll();
+    }
+
 }
