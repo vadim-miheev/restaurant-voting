@@ -1,11 +1,9 @@
 package ru.topjava.restaurant_voting.web.restaurant;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.topjava.restaurant_voting.dto.RestaurantTo;
 import ru.topjava.restaurant_voting.model.Restaurant;
 
@@ -36,5 +34,13 @@ public class AdminRestaurantController extends AbstractRestaurantController {
         log.info("getAll");
         return restaurantRepository.findAll();
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void delete(@PathVariable int id) {
+        restaurantRepository.deleteExisted(id);
+        log.info("delete Restaurant:{}", id);
+    }
+
 
 }
