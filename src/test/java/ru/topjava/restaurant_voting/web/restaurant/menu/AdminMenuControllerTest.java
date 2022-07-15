@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -139,6 +140,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.delete(REST_URL + "/" + RESTAURANT_ID_2 + SUBRESOURCE_URL + "/" + MENU_ID_5))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+        assertTrue(menuRepository.findById(MENU_ID_5).isEmpty());
     }
 
     @Test
