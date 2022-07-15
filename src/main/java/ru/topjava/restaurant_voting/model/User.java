@@ -2,9 +2,12 @@ package ru.topjava.restaurant_voting.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -32,4 +35,8 @@ public class User extends BaseEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinColumn(name = "id") //https://stackoverflow.com/a/62848296/548473
     private Set<Role> roles;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Vote> votes;
 }

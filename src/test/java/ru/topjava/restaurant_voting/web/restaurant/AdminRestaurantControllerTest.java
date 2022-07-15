@@ -10,6 +10,7 @@ import ru.topjava.restaurant_voting.web.AbstractControllerTest;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.restaurant_voting.web.restaurant.AdminRestaurantController.REST_URL;
@@ -54,5 +55,14 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(RESTAURANT_MATCHER.contentJson(RESTAURANTS));
+    }
+
+    @Test
+    @WithUserDetails(value = "admin")
+    void delete() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL + "/" + RESTAURANT_ID_3))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        assertTrue(restaurantRepository.findById(RESTAURANT_ID_3).isEmpty());
     }
 }

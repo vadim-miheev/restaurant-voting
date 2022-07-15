@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -26,7 +28,12 @@ public class Restaurant extends BaseEntity {
     @Column(nullable = false)
     @NotNull
     @JsonManagedReference
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Menu> menus;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Vote> votes;
 
     public Restaurant(Integer id, String name, List<Menu> menus) {
         super(id);
