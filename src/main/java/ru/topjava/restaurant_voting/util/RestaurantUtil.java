@@ -5,6 +5,7 @@ import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.http.HttpStatus;
 import ru.topjava.restaurant_voting.dto.RestaurantTo;
 import ru.topjava.restaurant_voting.error.AppException;
+import ru.topjava.restaurant_voting.model.Menu;
 import ru.topjava.restaurant_voting.model.Restaurant;
 import ru.topjava.restaurant_voting.repository.RestaurantRepository;
 
@@ -12,16 +13,24 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.MESSAGE;
 
 @UtilityClass
 public class RestaurantUtil {
-    public static List<RestaurantTo> getTos(Collection<Restaurant> restaurants) {
+    public static List<RestaurantTo> getTosWithAnyMenu(Collection<Restaurant> restaurants) {
+        return getTosWithMenuFilter(restaurants, menu -> true);
+    }
+
+    public static List<RestaurantTo> getTosWithMenuFilter(Collection<Restaurant> restaurants, Predicate<Menu> predicate) {
         return restaurants.stream()
-                .filter(r -> r.getMenus().size() == 1)
-                .map(r -> new RestaurantTo(r.id(), r.getName(), r.getMenus().get(0)))
+                .filter(r -> r.getMenus().size() > 0)
+                .map(r -> new RestaurantTo(r.id(), r.getName(),
+                        r.getMenus().stream()
+                                .filter(predicate)
+                                .findAny().orElseThrow()))
                 .collect(Collectors.toList());
     }
 

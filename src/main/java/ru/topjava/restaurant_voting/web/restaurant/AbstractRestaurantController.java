@@ -2,12 +2,12 @@ package ru.topjava.restaurant_voting.web.restaurant;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.topjava.restaurant_voting.repository.RestaurantRepository;
 import ru.topjava.restaurant_voting.dto.RestaurantTo;
+import ru.topjava.restaurant_voting.repository.RestaurantRepository;
 
 import java.util.List;
 
-import static ru.topjava.restaurant_voting.util.RestaurantUtil.getTos;
+import static ru.topjava.restaurant_voting.util.RestaurantUtil.getTosWithAnyMenu;
 
 @Slf4j
 public abstract class AbstractRestaurantController {
@@ -17,6 +17,6 @@ public abstract class AbstractRestaurantController {
 
     List<RestaurantTo> getAllWithMenuForToday() {
         log.info("getAllWithMenuForToday");
-        return getTos(restaurantRepository.getAllWithMenuForToday());
+        return getTosWithAnyMenu(restaurantRepository.getAllWithMenuForToday());
     }
 }
