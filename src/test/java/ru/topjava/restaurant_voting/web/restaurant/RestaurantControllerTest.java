@@ -9,8 +9,9 @@ import ru.topjava.restaurant_voting.web.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.topjava.restaurant_voting.util.RestaurantUtil.getTosWithAnyMenu;
 import static ru.topjava.restaurant_voting.web.restaurant.RestaurantController.REST_URL;
-import static ru.topjava.restaurant_voting.web.restaurant.RestaurantTestData.RESTAURANT_MATCHER;
+import static ru.topjava.restaurant_voting.web.restaurant.RestaurantTestData.RESTAURANT_TO_MATCHER;
 
 class RestaurantControllerTest extends AbstractControllerTest {
 
@@ -23,6 +24,6 @@ class RestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + "/today"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(RESTAURANT_MATCHER.contentJson(restaurantRepository.getAllWithMenuForToday()));
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(getTosWithAnyMenu(restaurantRepository.getAllWithMenuForToday())));
     }
 }
