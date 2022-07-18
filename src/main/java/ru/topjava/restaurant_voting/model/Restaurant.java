@@ -1,6 +1,8 @@
 package ru.topjava.restaurant_voting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +13,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -29,11 +32,13 @@ public class Restaurant extends BaseEntity {
     @NotNull
     @JsonManagedReference
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Menu> menus;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private List<Menu> menus = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Vote> votes;
+    @JsonIgnore
+    private List<Vote> votes = new ArrayList<>();
 
     public Restaurant(Integer id, String name, List<Menu> menus) {
         super(id);

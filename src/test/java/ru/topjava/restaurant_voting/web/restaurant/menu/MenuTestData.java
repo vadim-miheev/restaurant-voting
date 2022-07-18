@@ -7,13 +7,10 @@ import ru.topjava.restaurant_voting.web.MatcherFactory;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static ru.topjava.restaurant_voting.web.restaurant.menu.DishTestData.*;
 
 public class MenuTestData {
-    public static final MatcherFactory.Matcher<Menu> MENU_MATCHER = MatcherFactory.usingAssertions(Menu.class,
-            (a, e) -> assertThat(a).usingRecursiveComparison().isEqualTo(e),
-            (a, e) -> assertThat(a).usingRecursiveComparison().isEqualTo(e));
+    public static final MatcherFactory.Matcher<Menu> MENU_MATCHER = MatcherFactory.usingRecursiveIgnoreFieldsComparator(Menu.class);
 
     public static final int MENU_ID_1 = 1;
     public static final int MENU_ID_2 = 2;

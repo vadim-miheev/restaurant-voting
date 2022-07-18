@@ -29,7 +29,7 @@ public class MatcherFactory {
                 (a, e) -> assertThat(a).isEqualTo(e));
     }
 
-    public static <T> Matcher<T> usingIgnoringFieldsComparator(Class<T> clazz, String... fieldsToIgnore) {
+    public static <T> Matcher<T> usingRecursiveIgnoreFieldsComparator(Class<T> clazz, String... fieldsToIgnore) {
         return usingAssertions(clazz,
                 (a, e) -> assertThat(a).usingRecursiveComparison().ignoringFields(fieldsToIgnore).isEqualTo(e),
                 (a, e) -> assertThat(a).usingRecursiveComparison().ignoringFields(fieldsToIgnore).isEqualTo(e));

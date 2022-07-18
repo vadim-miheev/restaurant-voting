@@ -2,13 +2,18 @@ package ru.topjava.restaurant_voting.web.restaurant;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ru.topjava.restaurant_voting.model.Restaurant;
 import ru.topjava.restaurant_voting.repository.RestaurantRepository;
+import ru.topjava.restaurant_voting.util.JsonUtil;
 import ru.topjava.restaurant_voting.util.RestaurantUtil;
 import ru.topjava.restaurant_voting.web.AbstractControllerTest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -45,7 +50,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + "/" + RESTAURANT_ID_2))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(RESTAURANT_MATCHER.contentJson(RESTAURANT_2));
+                .andExpect(RESTAURANT_WITHOUT_MENU_MATCHER.contentJson(RESTAURANT_2));
     }
 
     @Test
@@ -54,7 +59,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(RESTAURANT_MATCHER.contentJson(RESTAURANTS));
+                .andExpect(RESTAURANT_WITHOUT_MENU_MATCHER.contentJson(RESTAURANTS));
     }
 
     @Test
@@ -64,5 +69,22 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertTrue(restaurantRepository.findById(RESTAURANT_ID_3).isEmpty());
+    }
+
+    @Test
+    @WithUserDetails(value = "admin")
+    void create() throws Exception {
+        Restaurant newRestaurant = new Restaurant(null, "New Restaurant", new ArrayList<>());
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newRestaurant)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+        Restaurant created = RESTAURANT_MATCHER.readFromJson(action);
+        int newId = created.id();
+
+        newRestaurant.setId(newId);
+        RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
+        RESTAURANT_MATCHER.assertMatch(created, restaurantRepository.findById(newId).orElse(null));
     }
 }

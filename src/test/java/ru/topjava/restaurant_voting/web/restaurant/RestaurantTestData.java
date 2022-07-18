@@ -11,8 +11,9 @@ import java.util.List;
 import static ru.topjava.restaurant_voting.web.restaurant.menu.MenuTestData.*;
 
 public class RestaurantTestData {
-    public static MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingEqualsComparator(Restaurant.class);
-    public static MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER = MatcherFactory.usingEqualsComparator(RestaurantTo.class);
+    public static MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER = MatcherFactory.usingRecursiveIgnoreFieldsComparator(RestaurantTo.class, "currentMenu.restaurant");
+    public static MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingRecursiveIgnoreFieldsComparator(Restaurant.class);
+    public static MatcherFactory.Matcher<Restaurant> RESTAURANT_WITHOUT_MENU_MATCHER = MatcherFactory.usingRecursiveIgnoreFieldsComparator(Restaurant.class, "menus");
 
     public static final int RESTAURANT_ID_1 = 1;
     public static final int RESTAURANT_ID_2 = 2;

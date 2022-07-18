@@ -1,5 +1,6 @@
 package ru.topjava.restaurant_voting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -38,5 +40,6 @@ public class User extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Vote> votes;
+    @JsonIgnore
+    private List<Vote> votes = new ArrayList<>();
 }
