@@ -15,8 +15,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-import static ru.topjava.restaurant_voting.util.RestaurantUtil.checkRestaurantExist;
-import static ru.topjava.restaurant_voting.util.RestaurantUtil.checkRestaurantIdBeforeUpdate;
+import static ru.topjava.restaurant_voting.util.RestaurantUtil.updateExisting;
 
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,10 +62,11 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     @PutMapping("/{id}")
     @Transactional
-    ResponseEntity<Restaurant> update(@PathVariable int id, @Valid @RequestBody Restaurant restaurant) {
-        checkRestaurantExist(restaurantRepository, id);
-        checkRestaurantIdBeforeUpdate(restaurant, id);
-        log.info("updated {}", restaurant);
-        return ResponseEntity.ok(restaurantRepository.save(restaurant));
+    ResponseEntity<Restaurant> update(@PathVariable int id, @Valid @RequestBody Restaurant forUpdate) {
+        Restaurant existing = restaurantRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Restaurant with specified ID does not exist"));
+        updateExisting(existing, forUpdate);
+        log.info("updated {}", existing);
+        return ResponseEntity.ok(restaurantRepository.save(existing));
     }
 }

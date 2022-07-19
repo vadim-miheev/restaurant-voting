@@ -13,8 +13,8 @@ import ru.topjava.restaurant_voting.util.RestaurantUtil;
 import ru.topjava.restaurant_voting.web.AbstractControllerTest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -74,7 +74,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = "admin")
     void create() throws Exception {
-        Restaurant newRestaurant = new Restaurant(null, "New Restaurant", new ArrayList<>());
+        Restaurant newRestaurant = new Restaurant(null, "New Restaurant");
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newRestaurant)))
@@ -86,5 +86,24 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
         newRestaurant.setId(newId);
         RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
         RESTAURANT_MATCHER.assertMatch(created, restaurantRepository.findById(newId).orElse(null));
+    }
+
+    @Test
+    @WithUserDetails(value = "admin")
+    void update() throws Exception {
+        Restaurant restaurantForUpdate = new Restaurant(RESTAURANT_ID_1, "Updated Name");
+        ResultActions action = perform(MockMvcRequestBuilders.put(REST_URL + "/" + RESTAURANT_ID_1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(restaurantForUpdate)))
+                .andDo(print())
+                .andExpect(status().isOk());
+        Restaurant updated = RESTAURANT_MATCHER.readFromJson(action);
+
+        int updatedId = updated.id();
+        assertEquals(updatedId, RESTAURANT_ID_1);
+
+        restaurantForUpdate.setId(updatedId);
+        RESTAURANT_MATCHER.assertMatch(updated, restaurantForUpdate.addMenusAndGetInstance(RESTAURANT_1_MENUS));
+        RESTAURANT_MATCHER.assertMatch(updated, restaurantRepository.findById(updatedId).orElse(null));
     }
 }

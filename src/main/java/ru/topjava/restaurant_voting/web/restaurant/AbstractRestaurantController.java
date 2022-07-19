@@ -15,6 +15,7 @@ public abstract class AbstractRestaurantController {
     @Autowired
     RestaurantRepository restaurantRepository;
 
+    /** @return All Restaurants that have a menu for today */
     List<RestaurantTo> getAllWithMenuForToday() {
         log.info("getAllWithMenuForToday");
         return getTosWithAnyMenu(restaurantRepository.getAllWithMenuForToday());
