@@ -131,7 +131,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(menuForUpdate)))
                 .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isNotFound());
     }
 
     @Test

@@ -41,7 +41,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> entityNotFoundException(WebRequest request, EntityNotFoundException ex) {
         log.error("EntityNotFoundException: {}", ex.getMessage());
-        return createResponseEntity(request, ErrorAttributeOptions.of(MESSAGE), null, HttpStatus.UNPROCESSABLE_ENTITY);
+        return createResponseEntity(request, ErrorAttributeOptions.of(MESSAGE), null, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

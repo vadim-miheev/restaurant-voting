@@ -81,6 +81,6 @@ class VoteControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.post(REST_URL).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("restaurantId", String.valueOf(NON_EXISTENT_RESTAURANT_ID)))
                 .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isNotFound());
     }
 }
