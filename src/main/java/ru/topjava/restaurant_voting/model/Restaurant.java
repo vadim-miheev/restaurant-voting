@@ -12,6 +12,8 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -29,14 +31,16 @@ public class Restaurant extends BaseEntity {
     @JsonManagedReference
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @NotNull
     //@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Menu> menus;
+    private List<Menu> menus = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     @Schema(hidden = true)
-    private List<Vote> votes;
+    @NotNull
+    private List<Vote> votes = new ArrayList<>();
 
     public Restaurant(Integer id, String name) {
         super(id);
