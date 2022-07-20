@@ -12,7 +12,6 @@ import ru.topjava.restaurant_voting.repository.VoteRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -34,8 +33,7 @@ public class VoteService {
         Optional<Vote> previousUserVote = voteRepository.getUserVoteForToday(user);
         if (previousUserVote.isPresent() && LocalTime.now(clockProvider.getClock()).isAfter(VOTING_DEADLINE)) {
             log.info("Vote after deadline - user:{}", user.id());
-            throw new VoteDeadlineException("You cannot change your vote after "
-                    + VOTING_DEADLINE.format(DateTimeFormatter.ofPattern("hh:mm a")));
+            throw new VoteDeadlineException();
         }
 
         Vote voteToSave = previousUserVote.orElse(new Vote(user, restaurantToVote));
