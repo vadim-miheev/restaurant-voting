@@ -59,8 +59,8 @@ class VoteControllerTest extends AbstractControllerTest {
     void voteBeforeDeadline() throws Exception {
         clockProvider.fixTimeTo(ZonedDateTime.of(LocalDate.now(), VOTING_DEADLINE, ZoneId.systemDefault()));
         perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"restaurantId\": %d}".formatted(EXISTING_RESTAURANT_ID)))
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("restaurantId", String.valueOf(EXISTING_RESTAURANT_ID)))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -69,8 +69,8 @@ class VoteControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = "user")
     void voteAfterDeadline() throws Exception {
         clockProvider.fixTimeTo(ZonedDateTime.of(LocalDate.now(), VOTING_DEADLINE.plusNanos(1), ZoneId.systemDefault()));
-        perform(MockMvcRequestBuilders.post(REST_URL).contentType(MediaType.APPLICATION_JSON)
-                .content("{\"restaurantId\": %d}".formatted(EXISTING_RESTAURANT_ID)))
+        perform(MockMvcRequestBuilders.post(REST_URL).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("restaurantId", String.valueOf(EXISTING_RESTAURANT_ID)))
                 .andDo(print())
                 .andExpect(status().isConflict());
     }
@@ -78,8 +78,8 @@ class VoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = "user")
     void voteForNonExistent() throws Exception {
-        perform(MockMvcRequestBuilders.post(REST_URL).contentType(MediaType.APPLICATION_JSON)
-                .content("{\"restaurantId\": %d}".formatted(NON_EXISTENT_RESTAURANT_ID)))
+        perform(MockMvcRequestBuilders.post(REST_URL).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("restaurantId", String.valueOf(NON_EXISTENT_RESTAURANT_ID)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }

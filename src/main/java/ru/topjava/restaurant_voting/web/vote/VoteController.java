@@ -30,9 +30,8 @@ public class VoteController extends AbstractRestaurantController {
         return ResponseEntity.of(voteRepository.getUserVoteForToday(authUser.getUser()));
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Vote> vote(@RequestBody ObjectNode objectNode, @AuthenticationPrincipal AuthUser authUser) {
-        int restaurantId = objectNode.get("restaurantId").asInt();
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    ResponseEntity<Vote> vote(@RequestParam int restaurantId, @AuthenticationPrincipal AuthUser authUser) {
         Vote countedVote = voteService.voteForRestaurant(restaurantId, authUser.getUser());
         log.info("Vote - user:{} restaurant:{}", authUser.id(), restaurantId);
         return ResponseEntity.ok(countedVote);
