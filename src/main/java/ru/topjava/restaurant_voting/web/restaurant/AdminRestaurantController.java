@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ru.topjava.restaurant_voting.dto.RestaurantTo;
+import ru.topjava.restaurant_voting.dto.restaurant.RestaurantWithCurrentMenu;
 import ru.topjava.restaurant_voting.model.Restaurant;
 
 import javax.persistence.EntityNotFoundException;
@@ -27,7 +27,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     @Override
     @GetMapping("/today")
-    List<RestaurantTo> getAllWithMenuForToday() {
+    List<RestaurantWithCurrentMenu> getAllWithMenuForToday() {
         return super.getAllWithMenuForToday();
     }
 

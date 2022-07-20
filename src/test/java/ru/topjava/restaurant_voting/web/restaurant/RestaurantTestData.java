@@ -1,6 +1,6 @@
 package ru.topjava.restaurant_voting.web.restaurant;
 
-import ru.topjava.restaurant_voting.dto.RestaurantTo;
+import ru.topjava.restaurant_voting.dto.restaurant.RestaurantWithCurrentMenu;
 import ru.topjava.restaurant_voting.model.Menu;
 import ru.topjava.restaurant_voting.model.Restaurant;
 import ru.topjava.restaurant_voting.web.MatcherFactory;
@@ -10,7 +10,7 @@ import java.util.List;
 import static ru.topjava.restaurant_voting.web.restaurant.menu.MenuTestData.*;
 
 public class RestaurantTestData {
-    public static MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER = MatcherFactory.usingRecursiveIgnoreFieldsComparator(RestaurantTo.class, "currentMenu.restaurant");
+    public static MatcherFactory.Matcher<RestaurantWithCurrentMenu> RESTAURANT_TO_MATCHER = MatcherFactory.usingRecursiveIgnoreFieldsComparator(RestaurantWithCurrentMenu.class, "currentMenu.restaurant");
     public static MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingRecursiveIgnoreFieldsComparator(Restaurant.class, "menus.restaurant", "votes");
     public static MatcherFactory.Matcher<Restaurant> RESTAURANT_WITHOUT_MENU_MATCHER = MatcherFactory.usingRecursiveIgnoreFieldsComparator(Restaurant.class, "menus");
 

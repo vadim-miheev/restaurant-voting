@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.topjava.restaurant_voting.dto.RestaurantTo;
+import ru.topjava.restaurant_voting.dto.restaurant.RestaurantWithCurrentMenu;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class RestaurantController extends AbstractRestaurantController {
 
     @Override
     @GetMapping("/today")
-    List<RestaurantTo> getAllWithMenuForToday() {
+    List<RestaurantWithCurrentMenu> getAllWithMenuForToday() {
         return super.getAllWithMenuForToday();
     }
 }

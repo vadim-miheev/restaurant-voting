@@ -1,10 +1,12 @@
 package ru.topjava.restaurant_voting.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.topjava.restaurant_voting.dto.restaurant.RestaurantWithoutMenus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,7 +31,7 @@ public class Vote extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
-    @JsonIgnoreProperties({"menus"})
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Restaurant restaurant;
 
     @Column(nullable = false, updatable = false, columnDefinition = "date default CURRENT_DATE()")
@@ -38,5 +40,10 @@ public class Vote extends BaseEntity {
     public Vote(User user, Restaurant restaurant) {
         this.user = user;
         this.restaurant = restaurant;
+    }
+
+    @JsonGetter
+    private RestaurantWithoutMenus getRestaurant() {
+        return new RestaurantWithoutMenus(restaurant.id(), restaurant.getName());
     }
 }

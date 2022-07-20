@@ -3,7 +3,7 @@ package ru.topjava.restaurant_voting.util;
 import lombok.experimental.UtilityClass;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.http.HttpStatus;
-import ru.topjava.restaurant_voting.dto.RestaurantTo;
+import ru.topjava.restaurant_voting.dto.restaurant.RestaurantWithCurrentMenu;
 import ru.topjava.restaurant_voting.error.AppException;
 import ru.topjava.restaurant_voting.model.Menu;
 import ru.topjava.restaurant_voting.model.Restaurant;
@@ -18,14 +18,14 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.M
 
 @UtilityClass
 public class RestaurantUtil {
-    public static List<RestaurantTo> getTosWithAnyMenu(Collection<Restaurant> restaurants) {
+    public static List<RestaurantWithCurrentMenu> getTosWithAnyMenu(Collection<Restaurant> restaurants) {
         return getTosWithMenuFilter(restaurants, menu -> true);
     }
 
-    public static List<RestaurantTo> getTosWithMenuFilter(Collection<Restaurant> restaurants, Predicate<Menu> predicate) {
+    public static List<RestaurantWithCurrentMenu> getTosWithMenuFilter(Collection<Restaurant> restaurants, Predicate<Menu> predicate) {
         return restaurants.stream()
                 .filter(r -> r.getMenus().size() > 0)
-                .map(r -> new RestaurantTo(r.id(), r.getName(),
+                .map(r -> new RestaurantWithCurrentMenu(r.id(), r.getName(),
                         r.getMenus().stream()
                                 .filter(predicate)
                                 .findAny().orElseThrow()))
