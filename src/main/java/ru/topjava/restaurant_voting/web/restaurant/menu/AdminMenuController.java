@@ -1,5 +1,6 @@
 package ru.topjava.restaurant_voting.web.restaurant.menu;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
@@ -25,6 +26,7 @@ import static ru.topjava.restaurant_voting.util.MenuUtil.*;
 @RequestMapping(value = AdminMenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 @Slf4j
+@Tag(name = "Menu Controller (for Admin)")
 public class AdminMenuController {
     protected static final String SUBRESOURCE_URL = "/menus";
     protected static final String REST_URL = AdminRestaurantController.REST_URL + "/{restaurantId}" + SUBRESOURCE_URL;

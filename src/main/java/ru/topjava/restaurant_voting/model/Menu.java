@@ -1,6 +1,7 @@
 package ru.topjava.restaurant_voting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class Menu extends BaseEntity {
     @JoinColumn(name = "restaurant_id", nullable = false, updatable = false)
     @NotNull
     @JsonBackReference
+    @Schema(hidden = true)
     private Restaurant restaurant;
 
     @Column(nullable = false)

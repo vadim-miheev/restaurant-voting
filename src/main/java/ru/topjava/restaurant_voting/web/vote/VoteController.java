@@ -1,6 +1,6 @@
 package ru.topjava.restaurant_voting.web.vote;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -17,6 +17,7 @@ import ru.topjava.restaurant_voting.web.restaurant.AbstractRestaurantController;
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
+@Tag(name = "Vote Controller")
 public class VoteController extends AbstractRestaurantController {
     static final String REST_URL = "/api/votes";
 

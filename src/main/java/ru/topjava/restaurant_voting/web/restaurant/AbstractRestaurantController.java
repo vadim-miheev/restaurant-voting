@@ -2,7 +2,7 @@ package ru.topjava.restaurant_voting.web.restaurant;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.topjava.restaurant_voting.dto.RestaurantTo;
+import ru.topjava.restaurant_voting.dto.restaurant.RestaurantWithCurrentMenu;
 import ru.topjava.restaurant_voting.repository.RestaurantRepository;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public abstract class AbstractRestaurantController {
     RestaurantRepository restaurantRepository;
 
     /** @return All Restaurants that have a menu for today */
-    List<RestaurantTo> getAllWithMenuForToday() {
+    List<RestaurantWithCurrentMenu> getAllWithMenuForToday() {
         log.info("getAllWithMenuForToday");
         return getTosWithAnyMenu(restaurantRepository.getAllWithMenuForToday());
     }
