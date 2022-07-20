@@ -12,8 +12,8 @@
     <artifactId>restaurant_voting</artifactId>
     <version>1.0</version>
     <name>Restaurant Voting</name>
-    <description>Voting system for deciding where to have lunch</description>
-    <url>https://github.com/vadim-miheev/restaurant-voting</url><!-- TODO update url after deployment-->
+    <description>Voting system (Backend) for deciding where to have lunch</description>
+    <url>https://restaurant-voting-application.herokuapp.com/swagger-ui/index.html</url>
 
     <properties>
         <java.version>17</java.version>
