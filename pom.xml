@@ -13,7 +13,7 @@
     <version>1.0</version>
     <name>Restaurant Voting</name>
     <description>Voting system (Backend) for deciding where to have lunch</description>
-    <url>https://restaurant-voting-application.herokuapp.com/swagger-ui/index.html</url>
+    <url>https://restaurant-voting-application.herokuapp.com</url>
 
     <properties>
         <java.version>17</java.version>
