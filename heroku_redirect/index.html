@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Loading</title>
+    <link rel="preconnect" href="https://restaurant-voting-application.herokuapp.com"/>
+    <meta charset="utf-8"/>
+    <meta name="description" content="Redirect to Heroku environment"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#000000"/>
+    <meta id="refresh" http-equiv="refresh" content="7; URL='/'"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+<script src="/heroku_redirect/index.js"></script>
+<body>
+    <main class="container">
+        <section class="row text-center">
+            <div class="col my-4">
+                <h1>This dyno* might be sleeping!</h1>
+                <img height="250" src="/heroku_redirect/dyno.png" alt="sleeping dino" />
+                <p>Please be patient after the redirection for <strong>6-7 seconds</strong> you may need to wait.<br />If you'd face a blank page: worry not! It will turn into something very nice soon^^.</p>
+                <small>*dynos are the containers at <a href="https://www.heroku.com/dynos" target="_blank" rel="noopener noreferrer">Heroku</a>, free ones go to sleep after a certain time</small>
+            </div>
+        </section>
+        <p class="text-center">
+            <span style="font-size: 30px; font-weight: 300; margin-right: 10px;">Loading</span>
+            <span class="loading-svg">
+                <svg version="1.1" id="svg-animation" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                     viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" height="28px"
+                     display="none" style="display: inline-block; margin-bottom: 20px">
+                    <rect fill="" width="3" height="100" transform="translate(0) rotate(180 3 50)">
+                      <animate attributeName="height" attributeType="XML" dur="1s" values="30; 100; 30" repeatCount="indefinite"></animate>
+                    </rect>
+                        <rect x="17" fill="" width="3" height="100" transform="translate(0) rotate(180 20 50)">
+                      <animate attributeName="height" attributeType="XML" dur="1s" values="30; 100; 30" repeatCount="indefinite" begin="0.1s"></animate>
+                    </rect>
+                        <rect x="40" fill="" width="3" height="100" transform="translate(0) rotate(180 40 50)">
+                      <animate attributeName="height" attributeType="XML" dur="1s" values="30; 100; 30" repeatCount="indefinite" begin="0.3s"></animate>
+                    </rect>
+                        <rect x="60" fill="" width="3" height="100" transform="translate(0) rotate(180 58 50)">
+                      <animate attributeName="height" attributeType="XML" dur="1s" values="30; 100; 30" repeatCount="indefinite" begin="0.5s"></animate>
+                    </rect>
+                        <rect x="80" fill="" width="3" height="100" transform="translate(0) rotate(180 76 50)">
+                      <animate attributeName="height" attributeType="XML" dur="1s" values="30; 100; 30" repeatCount="indefinite" begin="0.1s"></animate>
+                    </rect>
+                </svg>
+            </span>
+        </p>
+    </main>
+</body>
+<style>
+</style>
+</html>
