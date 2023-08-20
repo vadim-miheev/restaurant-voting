@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +21,8 @@ import ru.topjava.restaurant_voting.web.AuthUser;
 
 import java.util.Optional;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 @Slf4j
@@ -27,14 +30,21 @@ import java.util.Optional;
 public class WebSecurityConfig {
 
     private final UserRepository userRepository;
+
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
-                .antMatchers("/api/**").authenticated()
-                .and().httpBasic()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().csrf().disable();
+        http
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
+                .requestMatchers("/api/**").authenticated()
+                .anyRequest().authenticated()
+            )
+            .httpBasic(withDefaults())
+            .csrf(AbstractHttpConfigurer::disable)
+            .sessionManagement(sessions -> sessions
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            );
         return http.build();
     }
 
