@@ -1,5 +1,6 @@
 package ru.topjava.restaurant_voting.util;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.experimental.UtilityClass;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.http.HttpStatus;
@@ -7,7 +8,6 @@ import ru.topjava.restaurant_voting.error.AppException;
 import ru.topjava.restaurant_voting.model.Menu;
 import ru.topjava.restaurant_voting.repository.MenuRepository;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Objects;
 
 import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.MESSAGE;

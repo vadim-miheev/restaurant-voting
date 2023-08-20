@@ -1,12 +1,11 @@
 package ru.topjava.restaurant_voting.service;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.topjava.restaurant_voting.model.Menu;
 import ru.topjava.restaurant_voting.repository.MenuRepository;
-
-import javax.validation.Valid;
 
 @Service
 @AllArgsConstructor

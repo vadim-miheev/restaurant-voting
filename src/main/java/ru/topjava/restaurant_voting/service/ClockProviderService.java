@@ -1,10 +1,10 @@
 package ru.topjava.restaurant_voting.service;
 
 
+import jakarta.validation.ClockProvider;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ClockProvider;
 import java.time.Clock;
 import java.time.ZonedDateTime;
 

@@ -1,5 +1,6 @@
 package ru.topjava.restaurant_voting.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,6 @@ import ru.topjava.restaurant_voting.model.Vote;
 import ru.topjava.restaurant_voting.repository.RestaurantRepository;
 import ru.topjava.restaurant_voting.repository.VoteRepository;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalTime;
 import java.util.Optional;
 

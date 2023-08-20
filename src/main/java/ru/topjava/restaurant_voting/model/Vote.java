@@ -3,13 +3,13 @@ package ru.topjava.restaurant_voting.model;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.topjava.restaurant_voting.dto.restaurant.RestaurantWithoutMenus;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.time.LocalDate;
 

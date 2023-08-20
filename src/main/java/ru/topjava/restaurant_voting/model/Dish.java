@@ -1,11 +1,10 @@
 package ru.topjava.restaurant_voting.model;
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.PositiveOrZero;
 
 @Getter
 @AllArgsConstructor

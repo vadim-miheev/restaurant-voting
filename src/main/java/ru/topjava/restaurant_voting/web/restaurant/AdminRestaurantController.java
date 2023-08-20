@@ -1,6 +1,8 @@
 package ru.topjava.restaurant_voting.web.restaurant;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,8 +13,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.restaurant_voting.dto.restaurant.RestaurantWithCurrentMenu;
 import ru.topjava.restaurant_voting.model.Restaurant;
 
-import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 

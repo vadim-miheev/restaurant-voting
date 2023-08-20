@@ -1,10 +1,10 @@
 package ru.topjava.restaurant_voting.model.converter;
 
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+import jakarta.validation.Valid;
 import ru.topjava.restaurant_voting.model.Dish;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
