@@ -18,6 +18,7 @@ import java.time.ZonedDateTime;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.restaurant_voting.service.VoteService.VOTING_DEADLINE;
+import static ru.topjava.restaurant_voting.web.user.UserTestData.ADMIN_ID;
 import static ru.topjava.restaurant_voting.web.user.UserTestData.USER_ID;
 import static ru.topjava.restaurant_voting.web.vote.VoteController.REST_URL;
 import static ru.topjava.restaurant_voting.web.vote.VoteTestData.*;
@@ -33,7 +34,7 @@ class VoteControllerTest extends AbstractControllerTest {
     private ClockProviderService clockProvider;
 
     @AfterAll
-    private static void afterAll(@Autowired ClockProviderService clockProvider) {
+    public static void afterAll(@Autowired ClockProviderService clockProvider) {
         clockProvider.resetToDefault();
     }
 
@@ -45,6 +46,16 @@ class VoteControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(VOTE_MATCHER.contentJson(voteRepository.getUserVoteForToday(
                         userRepository.getReferenceById(USER_ID)).orElse(null)));
+    }
+
+    @Test
+    @WithUserDetails(value = "admin")
+    void getAdminVoteForToday() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "/current"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(VOTE_MATCHER.contentJson(voteRepository.getUserVoteForToday(
+                        userRepository.getReferenceById(ADMIN_ID)).orElse(null)));
     }
 
     @Test
