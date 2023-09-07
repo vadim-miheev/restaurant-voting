@@ -21,7 +21,7 @@ Execute in root directory:
 mvn spring-boot:run
 ```
 
-## [REST API documentation](https://vadim-miheev.github.io/restaurant-voting/heroku_redirect/)  
+## [REST API documentation](http://83.166.240.102:8080/swagger-ui/index.html)  
 Credentials:
 ```
 Admin: admin / admin
