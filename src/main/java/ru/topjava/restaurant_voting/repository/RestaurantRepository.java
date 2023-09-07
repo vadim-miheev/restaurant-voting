@@ -9,6 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface RestaurantRepository extends BaseRepository<Restaurant> {
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m")
+    List<Restaurant> getAllWithMenus();
+
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.date = CURRENT_DATE()")
     List<Restaurant> getAllWithMenuForToday();
 
