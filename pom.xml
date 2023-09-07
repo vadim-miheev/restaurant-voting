@@ -13,7 +13,7 @@
     <version>1.0</version>
     <name>Restaurant Voting</name>
     <description>Voting system (Backend) for deciding where to have lunch</description>
-    <url>https://vadim-miheev.github.io/restaurant-voting/heroku_redirect/</url>
+    <url>http://83.166.240.102:8080/</url>
 
     <properties>
         <java.version>17</java.version>
