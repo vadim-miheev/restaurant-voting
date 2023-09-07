@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.util.ProxyUtils;
-import org.springframework.util.Assert;
+import ru.topjava.restaurant_voting.HasId;
 
 @Getter
 @Setter
@@ -14,19 +14,13 @@ import org.springframework.util.Assert;
 @Access(AccessType.FIELD)
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseEntity implements Persistable<Integer>{
+public class BaseEntity implements Persistable<Integer>, HasId {
     @ToString.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     protected Integer id;
-
-    // doesn't work for hibernate lazy proxy
-    public int id() {
-        Assert.notNull(id, "Entity must have id");
-        return id;
-    }
 
     @JsonIgnore
     @Override
