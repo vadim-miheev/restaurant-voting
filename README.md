@@ -5,7 +5,7 @@ Voting system (Backend) for deciding where to have lunch
 ## Stack
 - [JDK 17](http://jdk.java.net/17/)
 - Maven
-- Spring Boot 2.7
+- Spring Boot 3.1.2
 - Spring MVC
 - Spring Data JPA (Hibernate)
 - Spring Security
