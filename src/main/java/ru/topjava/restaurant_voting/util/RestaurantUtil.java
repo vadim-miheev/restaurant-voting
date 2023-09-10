@@ -1,10 +1,7 @@
 package ru.topjava.restaurant_voting.util;
 
 import lombok.experimental.UtilityClass;
-import org.springframework.boot.web.error.ErrorAttributeOptions;
-import org.springframework.http.HttpStatus;
 import ru.topjava.restaurant_voting.dto.restaurant.RestaurantWithCurrentMenu;
-import ru.topjava.restaurant_voting.error.AppException;
 import ru.topjava.restaurant_voting.model.Menu;
 import ru.topjava.restaurant_voting.model.Restaurant;
 
@@ -13,8 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.MESSAGE;
 
 @UtilityClass
 public class RestaurantUtil {
@@ -36,8 +31,7 @@ public class RestaurantUtil {
         if (forUpdate.isNew()) {
             forUpdate.setId(existing.id());
         } else if (Objects.requireNonNull(forUpdate.getId()) != existing.id()) {
-            throw new AppException(HttpStatus.UNPROCESSABLE_ENTITY, "Restaurant id cannot be changed",
-                    ErrorAttributeOptions.of(MESSAGE));
+            throw new IllegalArgumentException("Restaurant id cannot be changed");
         }
         existing.setName(forUpdate.getName());
     }

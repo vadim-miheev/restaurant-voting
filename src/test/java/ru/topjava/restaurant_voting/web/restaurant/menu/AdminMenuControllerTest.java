@@ -67,7 +67,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
     void getWithWrongRestaurant() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "/" + RESTAURANT_ID_3 + SUBRESOURCE_URL + "/" + MENU_ID_5))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -156,6 +156,6 @@ class AdminMenuControllerTest extends AbstractControllerTest {
     void deleteWithWrongRestaurantId() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + "/" + RESTAURANT_ID_4 + SUBRESOURCE_URL + "/" + MENU_ID_4))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
 }

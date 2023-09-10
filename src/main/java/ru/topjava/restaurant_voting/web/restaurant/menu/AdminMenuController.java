@@ -1,16 +1,15 @@
 package ru.topjava.restaurant_voting.web.restaurant.menu;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ru.topjava.restaurant_voting.error.AppException;
 import ru.topjava.restaurant_voting.model.Menu;
 import ru.topjava.restaurant_voting.repository.MenuRepository;
 import ru.topjava.restaurant_voting.repository.RestaurantRepository;
@@ -73,8 +72,7 @@ public class AdminMenuController {
     @DeleteMapping("/{menuId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable int restaurantId, @PathVariable int menuId) {
-        Menu menu = menuRepository.findById(menuId).orElseThrow(
-                () -> new AppException(HttpStatus.NOT_FOUND, "Menu not found", ErrorAttributeOptions.defaults()));
+        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
         checkRestaurantId(menu, restaurantId);
         menuRepository.deleteExisted(menuId);
         log.info("deleted Menu:{} from Restaurant:{}", menuId, restaurantId);

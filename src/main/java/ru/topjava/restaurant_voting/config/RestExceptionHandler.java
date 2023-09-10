@@ -26,7 +26,6 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import ru.topjava.restaurant_voting.error.AppException;
 import ru.topjava.restaurant_voting.error.ErrorType;
 import ru.topjava.restaurant_voting.error.VoteDeadlineException;
 
@@ -51,7 +50,6 @@ public class RestExceptionHandler {
     static final Map<Class<? extends Throwable>, ErrorType> HTTP_STATUS_MAP = new LinkedHashMap<>() {
         {
 // more specific first
-            put(AppException.class, APP_ERROR);
             put(ChangeSetPersister.NotFoundException.class, NOT_FOUND);
             put(NoHandlerFoundException.class, NOT_FOUND);
             put(EntityNotFoundException.class, NOT_FOUND);
