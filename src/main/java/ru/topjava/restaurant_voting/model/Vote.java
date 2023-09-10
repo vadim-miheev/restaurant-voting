@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.topjava.restaurant_voting.dto.restaurant.RestaurantWithoutMenus;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -43,7 +42,7 @@ public class Vote extends BaseEntity {
     }
 
     @JsonGetter
-    private RestaurantWithoutMenus getRestaurant() {
-        return new RestaurantWithoutMenus(restaurant.id(), restaurant.getName());
+    private Restaurant getRestaurant() {
+        return this.restaurant;
     }
 }

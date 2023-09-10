@@ -103,7 +103,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
         assertEquals(updatedId, RESTAURANT_ID_1);
 
         restaurantForUpdate.setId(updatedId);
-        RESTAURANT_MATCHER.assertMatch(updated, restaurantForUpdate.addMenusAndGetInstance(RESTAURANT_1_MENUS));
-        RESTAURANT_MATCHER.assertMatch(updated, restaurantRepository.findById(updatedId).orElse(null));
+        RESTAURANT_MATCHER.assertMatch(updated, restaurantForUpdate);
+        RESTAURANT_MATCHER.assertMatch(updated.withMenus(RESTAURANT_1_MENUS), restaurantRepository.findById(updatedId).orElse(null));
     }
 }

@@ -1,7 +1,6 @@
 package ru.topjava.restaurant_voting.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -28,7 +27,7 @@ public class Restaurant extends BaseEntity {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    @JsonManagedReference
+    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     @NotNull
@@ -47,7 +46,7 @@ public class Restaurant extends BaseEntity {
         this.name = name;
     }
 
-    public Restaurant addMenusAndGetInstance(List<Menu> menus) {
+    public Restaurant withMenus(List<Menu> menus) {
         this.menus = menus;
         return this;
     }

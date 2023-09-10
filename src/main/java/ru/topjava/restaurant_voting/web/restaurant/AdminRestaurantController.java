@@ -41,7 +41,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     @GetMapping
     List<Restaurant> getAll() {
         log.info("getAll");
-        return restaurantRepository.getAllWithMenus();
+        return restaurantRepository.findAll();
     }
 
     @DeleteMapping("/{id}")

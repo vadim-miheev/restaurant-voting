@@ -23,9 +23,9 @@ public class RestaurantTestData {
     public static final List<Menu> RESTAURANT_2_MENUS = List.of(MENU_4, MENU_5);
     public static final List<Menu> RESTAURANT_3_MENUS = List.of(MENU_6, MENU_7);
 
-    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_ID_1, "restaurant1").addMenusAndGetInstance(RESTAURANT_1_MENUS);
-    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_ID_2, "restaurant2").addMenusAndGetInstance(RESTAURANT_2_MENUS);
-    public static final Restaurant RESTAURANT_3 = new Restaurant(RESTAURANT_ID_3, "restaurant3").addMenusAndGetInstance(RESTAURANT_3_MENUS);
+    public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_ID_1, "restaurant1").withMenus(RESTAURANT_1_MENUS);
+    public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_ID_2, "restaurant2").withMenus(RESTAURANT_2_MENUS);
+    public static final Restaurant RESTAURANT_3 = new Restaurant(RESTAURANT_ID_3, "restaurant3").withMenus(RESTAURANT_3_MENUS);
     public static final Restaurant RESTAURANT_4 = new Restaurant(RESTAURANT_ID_4, "restaurant4");
 
     public static final List<Restaurant> RESTAURANTS = List.of(RESTAURANT_1, RESTAURANT_2, RESTAURANT_3, RESTAURANT_4);
