@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     @GetMapping
     List<Restaurant> getAll() {
         log.info("getAll");
-        return restaurantRepository.findAll();
+        return restaurantRepository.findAll(Sort.by( "id"));
     }
 
     @DeleteMapping("/{id}")
