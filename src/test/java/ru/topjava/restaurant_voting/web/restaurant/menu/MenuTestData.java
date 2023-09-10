@@ -29,11 +29,11 @@ public class MenuTestData {
     public static final List<Dish> MENU_6_DISHES = List.of(DISH_1, DISH_2, DISH_3);
     public static final List<Dish> MENU_7_DISHES = List.of(DISH_4, DISH_5, DISH_6, DISH_7);
 
-    public static final Menu MENU_1 = new Menu(MENU_ID_1, null, LocalDate.of(2022, 6, 16), MENU_1_DISHES);
-    public static final Menu MENU_2 = new Menu(MENU_ID_2, null, LocalDate.of(2022, 6, 15), MENU_2_DISHES);
+    public static final Menu MENU_1 = new Menu(MENU_ID_1, null, LocalDate.of(2023, 9, 9), MENU_1_DISHES);
+    public static final Menu MENU_2 = new Menu(MENU_ID_2, null, LocalDate.of(2023, 9, 8), MENU_2_DISHES);
     public static final Menu MENU_3 = new Menu(MENU_ID_3, null, LocalDate.now(), MENU_3_DISHES);
-    public static final Menu MENU_4 = new Menu(MENU_ID_4, null, LocalDate.of(2022, 6, 15), MENU_4_DISHES);
+    public static final Menu MENU_4 = new Menu(MENU_ID_4, null, LocalDate.of(2023, 9, 8), MENU_4_DISHES);
     public static final Menu MENU_5 = new Menu(MENU_ID_5, null, LocalDate.now(), MENU_5_DISHES);
-    public static final Menu MENU_6 = new Menu(MENU_ID_6, null, LocalDate.of(2022, 6, 15), MENU_6_DISHES);
+    public static final Menu MENU_6 = new Menu(MENU_ID_6, null, LocalDate.of(2023, 9, 8), MENU_6_DISHES);
     public static final Menu MENU_7 = new Menu(MENU_ID_7, null, LocalDate.now(), MENU_7_DISHES);
 }
